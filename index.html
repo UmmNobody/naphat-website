@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <title>เว็บแรกของ นายณภัทร ทองอ่อน</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playwrite+MX+Guides&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #d3e6f8;
+            font-family: Itim, sans-serif;
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        h1 {
+            color: #780b0b;
+            text-align: center;
+        }
+        p {
+            font-size: 16px;
+            text-align: center;
+        }
+        img {
+            width: 200px;
+            height: 200px;
+            border: 10px solid #c65f0a;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, .2);
+            display: block;
+            margin: 20px auto;
+        }
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin: 20px auto;
+            background-color: #bff3f5;
+            box-shadow: 0 0 15px rgba(0, 0, 0, .4);
+        }
+        th, td {
+            border: 1px solid #555555;
+            padding: 12px;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+            text-shadow: 0 0 5px rgba(0, 0, 0, .6);
+        }
+        tr:nth-child(even) {
+            background-color: #a7d1d3;
+        }
+        .rbox {
+            display: grid;
+            place-items: center;
+            gap: 20px;
+        }
+        button {
+            padding: 10px;
+            background-color: #3498db;
+            color: white;
+        }
+        #num {
+            font-family: "Playwrite MX Guides", cursive;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 50px;
+        }
+
+        .heart {
+            position: absolute;
+            color: red;
+            font-size: 30px;
+            user-select: none;
+            pointer-events: none;
+            animation-name: fall;
+            animation-timing-function: linear;
+        }
+
+        @keyframes fall {
+            0% {
+            top: -50px;
+            }
+            100% {
+            top: 100vh;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <h1>แนะนำตัวของฉัน</h1>
+    
+    <img id="myimg" src="myphoto.jpg" alt="รูปภาพของฉัน" width="200">
+    <p>สวัดดีครับ! นี่คือหน้าเว็บแนะนำตัวของฉัน</p>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th colspan="2">ข้อมูลส่วนตัว</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>รหัสประจำตัว</td>
+                <td>683380073-8</td>
+            </tr>
+            <tr>
+                <td>ชื่อ</td>
+                <td>นายณภัทร ทองอ่อน</td>
+            </tr>
+            <tr>
+                <td>ควาทสนใจ</td>
+                <td>เกม อนิเมะ และโค้ดดิ้ง</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="rbox">
+        <button onclick="start_random()">กดเพื่อสุ่มตัวเลข 6 หลัก</button>
+        <div id="num"></div>
+    </div>
+    <script>
+        let n = 0;
+        let numElem = document.getElementById("num");
+        let body = document.querySelector("body");
+        let image = document.getElementById("myimg");
+        let angle = 0;
+
+        function start_random() {
+            if(n>0) return;
+            n = 50;
+            next_number();
+        }
+        function next_number() {
+            ran_bg();
+            rotate_img();
+            dropHeart();
+            var r = Math.round(Math.random()*999999)+"";
+            numElem.innerText = r.padStart(6,'0');
+            n--;
+            if(n>0) {
+                setTimeout(next_number, 150-n*5);
+            }else {
+                body.style.backgroundColor = `#d3e6f8`;
+                image.style.transform = `rotate(0deg)`;
+            }
+        }
+
+        function ran_bg() {
+            let r = Math.round(Math.random()*255);
+            let g = Math.round(Math.random()*255);
+            let b = Math.round(Math.random()*255);
+            body.style.backgroundColor = `rgba(${r}, ${g}, ${b})`;
+        }
+
+        function rotate_img() {
+            angle += 72;
+            image.style.transform = `rotate(${angle}deg)`;
+
+        }
+
+        function dropHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.textContent = '🪙';
+
+            const x = Math.random() * window.innerWidth;
+            heart.style.left = x + 'px';
+
+            const size = 20 + Math.random() * 40;
+            heart.style.fontSize = size + 'px';
+
+            const speed = getRandomSpeed(2, 8);
+            heart.style.animationDuration = speed + 's';
+
+            document.body.appendChild(heart);
+
+            setTimeout(() => heart.remove(), speed * 1000);
+        }
+
+        function getRandomSpeed(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+    </script>
+</body>
+</html>
